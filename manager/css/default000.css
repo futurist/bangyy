@@ -1,0 +1,187 @@
+/*
+	HUNDREDS of other stylesheets which work with this class can be found here - http://icant.co.uk/csstablegallery
+	Try a few demos using the style dropdown box for our demo here - http://www.ajaxcrud.com/
+*/
+
+.paging_links{
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	/* color:#F5E000;*/
+	color:#445276;
+}
+
+.ajaxCRUD {
+	background: #FFF;
+	border-color: #BBB1ED;
+	border-style: solid;
+	border-width: 0px;
+	padding:4px;
+	border-collapse:collapse;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.ajaxCRUD th{
+background: #ADADAD;
+font-weight: bold;
+color: #FFFFFF;
+font-size: 14px;
+}
+.horizontal.ajaxCRUD th{
+background: #DEDEDE;
+font-weight: bold;
+color: #272727;
+font-size: 12px;
+}
+
+.ajaxCRUD th a{
+	color: #173D7F;
+}
+
+.ajaxCRUD td a{
+	border-bottom: 1px dotted #ba0000;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+.ajaxCRUD td a:hover{
+	color: #000;
+}
+
+.ajaxCRUD td{
+	font-family: Arial, Verdana;
+	font-size: 16px;
+	color: #333;
+	font-weight:normal;
+	/* text-align: center; */
+	vertical-align: middle;
+}
+
+.ajaxCRUD td, .ajaxCRUD th{
+	padding: 15px 5px;
+}
+table td.odd, table tr.odd, tr.odd td, tbody tr.odd th{
+	background-color: #FFF;
+}
+
+.editingSize{
+
+font-size: 12px;
+border: 1px solid #ccc;
+background: #eee;
+border-radius: 4px;
+padding: 5px 10px;
+
+}
+
+.vertical, .vertical td, .vertical th{
+	text-align:left;
+	font-family: Arial;
+}
+
+input, select, textarea{
+	font-size: 100%;
+	border-top: 1px solid #7c7c7c;
+	border-left: 1px solid #c3c3c3;
+	border-right: 1px solid #c3c3c3;
+	border-bottom: 1px solid #ddd;
+	/*background: #fff url("fieldbg.gif") repeat-x top;*/
+	color: #333;
+	padding: 2px 0 2px 2px;
+}
+
+.btn{
+	font-size: 11px;
+}
+.report, .alertgood {
+	text-align: left;
+	border-top: 1px solid #9c9;
+	border-bottom: 1px solid #9c9;
+	padding: 5px 5px 5px 30px;
+	font-size: 11px;
+	margin: 0 20px 15px 20px;
+	color: #060;
+	background: url("checkicon.gif") #e2f9e3 left no-repeat;
+}
+
+.error, .alertbad {
+	text-align: left;
+	font-weight: bold;
+	border-top: 1px solid #c99;
+	border-bottom: 1px solid #c99;
+	padding: 5px 5px 5px 27px;
+	font-size: 11px;
+	margin: 0 20px 15px 20px;
+	background: url("badicon.gif") #c00 left no-repeat;
+	color: #fff;
+}
+
+.vertical td.content{
+	width:338px;
+	border-left:1px solid #e5e5e5;
+	border-right:1px solid #e5e5e5;
+}
+.vertical td.content>div{
+	width:320px;
+	margin:0 auto;
+	/*
+	border-left:1px solid #c5c5c5;
+	border-right:1px solid #c5c5c5;
+	*/
+	word-break: break-all;
+	word-wrap: break-word;
+	overflow:auto;
+}
+
+.odd th{
+	color:#8B8B8B;
+}
+
+tr.vertical{
+		border-bottom: 1px solid #eee;
+}
+
+.vertical.ajaxCRUD .sep td{
+	border-top: 4px rgb(255,100,100) solid;
+}
+
+.vertical.ajaxCRUD{
+	background: url(iphone.jpg);
+	background-position:right top;
+	background-repeat: no-repeat;
+	background-origin: border;
+}
+.vertical.ajaxCRUD .phoneHeader{
+	padding:0;
+	height:136px;
+	width: 350px;
+}
+
+.bigSize{
+	font-size: 18px;
+padding: 5px 10px;
+border: 1px solid #ccc;
+}
+
+td.content a{
+	font-size: 16px;
+	color:#595959;
+	text-decoration: underline;
+}
+.fileEditText, .fileDeleteText{
+	padding: 10px;
+}
+
+.fileOpr{
+	padding-top: 20px;
+}
+
+.vertical td.content{
+	color:#aaa;
+}
+
+.content .editable{
+	color:#333;
+}
+
+
