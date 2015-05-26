@@ -11,7 +11,7 @@ $_SESSION["trytime"] = $try+1;
 
 if($try<5 && $action=="login"){
 
-	$r = q1("select * from members where role='manager' limit 1 ");
+	$r = q1("select * from members where role='manager' and phone='$phone' limit 1 ");
 	if($r['pass'] == $pass && $r['phone'] == $phone){
 		$_SESSION["trytime"] = null;
 		$_SESSION["admin"] = 1;

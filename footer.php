@@ -33,13 +33,15 @@ var menuJSON = JSON.parse('<?php echo json_encode($menu); ?>');
 var menuGroup = '<?php echo $menuGroup; ?>';
 
 function setMenu (name) {
-	var menus = menuJSON.filter(function(v){return v.gname==name});
-	var str = menus.map(function (v) {
-		return '<li><a href="'+ v.link +'">'+ v.name +'</a></li>';
-	});
-	$('.popmenu li').not('.sysmenu').remove();
-	$('.popmenu ul').prepend( $(str.join('')) );
-
+	if(menuJSON){
+		var menus = menuJSON.filter(function(v){return v.gname==name});
+		var str = menus.map(function (v) {
+			return '<li><a href="'+ v.link +'">'+ v.name +'</a></li>';
+		});
+		$('.popmenu li').not('.sysmenu').remove();
+		$('.popmenu ul').prepend( $(str.join('')) );
+	}
+	
 	var w = $('.popmenu').width();
 	//$('.popmenu').css({right: -w, visibility:'visible'}).animate({ right:0 }, 300);
 	if(w) $('.popmenu').hide();

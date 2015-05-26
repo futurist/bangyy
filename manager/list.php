@@ -199,6 +199,7 @@ if($table == "logs"){
 	$tblDraw->addAjaxFilterBoxAllFields();
 }
 
+
 if($table == "orders"){
 	$tblDraw->addAjaxFilterBox("id");
 	$tblDraw->addAjaxFilterBox("name");
@@ -235,6 +236,15 @@ else
 if($table == "menu"){
 	$tblDraw->addOrderBy("ORDER BY gname,id asc");
 	$tblDraw->omitField("id");
+}
+if($table == "redeem"){
+	$tblDraw->omitField("id");
+	$tblDraw->addOrderBy("ORDER BY award,pass asc");
+	$tblDraw->addAjaxFilterBoxAllFields();
+}
+if($table == "members"){
+	$tblDraw->defineAllowableValues("type",  array("大众",  "VIP")  );
+	$tblDraw->addAjaxFilterBoxAllFields();
 }
 
 
