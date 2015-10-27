@@ -1,0 +1,28 @@
+<style type="text/css">.wrap{
+    padding-bottom:60px;
+  }
+  
+  .abs2{
+	float:left;
+}
+.line{
+	overflow-x:hidden;
+}</style>
+<p>
+    <img src="images/index_01.gif" width="640" title="index_01.gif" alt="index_01.gif"/>
+</p>
+<p class="line clearfix">
+    <a href="javascript:setMenu('首页');" target="_self"><img src="images/index_02.gif" height="179" width="396" title="1432472384785717.gif" alt="1432472384785717.gif" border="0" vspace="0" style="width: 396px; height: 179px; float: left;"/></a><a href="#" class="regEvent" target="_self"><img src="images/index_03.gif" height="179" width="244"/></a>
+</p>
+<p class="line clearfix">
+    <a href="nlist1.php?id=1" target="_self"><img src="images/index_04.gif" height="187" width="232"/></a><a href="javascript:setMenu('赏珍藏');" target="_self"><img src="images/index_05.gif" height="187" width="408"/></a>
+</p>
+<p class="line clearfix">
+    <a href="javascript:setMenu('品御浆');" target="_self"><img src="images/index_06.gif" height="156" width="396"/></a><a href="redeem.php" target="_self"><img src="images/index_07.gif" height="156" width="244"/></a>
+</p>
+<p class="line clearfix">
+    <br/>
+</p>
+<p>
+    <br/>
+</p>

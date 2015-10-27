@@ -5,11 +5,16 @@ $menu = q( "select * from menu " );
 $phoneSession = $_SESSION['phone'];
 $menuGroup = '首页';
 
+$r = q1("select *, news.id as newsid, channel.name as cname , channel.id as cid from news left join channel on channelID=channel.id where channelID=2 order by dtime desc limit 1");
+$event = $r["event"]; 
+$eventNewsID = $r["newsid"]; 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ch">
 <head>
-<title>板城工业游</title>
+<title>板城酒业官微</title>
 <meta charset="utf-8"/>
 <meta name="keywords" content="板城烧锅"/>
 <meta name="description" content="板城烧锅"/>
@@ -285,7 +290,6 @@ body{
         z-index: 20000000;
 }
 
-
 </style>
 
 <script type="text/javascript" src="js/zepto.min.js" ></script>
@@ -299,6 +303,11 @@ $(function  () {
 		$(".bg,.txtpyq").hide();
 	});
 });
+
+var eventNewsID = "<?php echo $eventNewsID; ?>";
+
+var tuanLink = "article.php?id="+eventNewsID;
+
 </script>
 
 </head>

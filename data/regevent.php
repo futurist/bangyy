@@ -29,7 +29,7 @@ $time = time();
 
 if(!$phone) exit();
 
-q("update members set event = concat(event,'$event@') where phone='$phone' and instr(event, '@$event@')=0 ");
+q("update members set event = concat(event,'$event,') where phone='$phone' and instr(event, ',$event,')=0 ");
 
 exit();
 

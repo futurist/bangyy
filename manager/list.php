@@ -7,6 +7,8 @@ include_once ('ajaxCRUD.class.php');
 $date = date("Y-m-d H:i:s");
 
 $table = $_GET["show"];
+$rowid = $_GET["id"];
+$channelID = $_GET['channelID'];
 
 
 if(!$table) $table = $_SESSION["table"];
@@ -56,6 +58,19 @@ $_SESSION['ajaxcrud_where_clause'][$table] = "";
 		th,td {
 			white-space: nowrap;
 		}
+		td.content{
+			max-width: 700px;
+			overflow: hidden;
+			text-overflow:ellips;
+		}
+		.result-tab th{
+			background: none;
+		}
+		.edui-default .edui-editor-bottomContainer{
+			position: absolute;
+			top: 0;
+			right: 50px;
+		}
 	</style>
 </head>
 <body>
@@ -104,7 +119,7 @@ $_SESSION['ajaxcrud_where_clause'][$table] = "";
 	//$tblFriend->modifyFieldWithClass("fldDateMet", "datepicker");
 
 function makeImg($val){
-	return  $val ?  "<img style=\"max-width: 320px; max-height: 300px;\" src=\"../uploads/$val\" />" : "";
+	return  $val ?  "<img style=\"max-width: 640px; max-height: 300px;\" src=\"../uploads/$val\" />" : "";
 }
 
 function makeProductID($val){
@@ -118,15 +133,20 @@ function editPass($val){
 
 
 if($table == "single"){
+	if(!$rowid) $tblDraw->addButtonToRow("编辑", "", "id", "openSinglePreview");
 	$tblDraw->addButtonToRow("预览", "../single.php", "id", "", "new");
 
 }
 if($table == "channel"){
+	if(!$rowid) $tblDraw->addButtonToRow("编辑", "", "id", "openChannelPreview");
 	$tblDraw->addButtonToRow("预览1", "../nlist1.php", "id", "", "new");
 	$tblDraw->addButtonToRow("预览2", "../nlist2.php", "id", "", "new");
+	$tblDraw->addButtonToRow("文章列表", "list.php?show=news", "channelID", "", "new");
+	$tblDraw->addButtonToRow("添加文章", "list.php?show=news&addNews=1", "channelID", "");
 
 	$tblDraw->defineAllowableValues("how",  array("文字模式","小图列表","大图模式")  );
 
+	$tblDraw->addOrderBy("ORDER BY menu desc");
 
 }
 
@@ -135,9 +155,26 @@ $tblDraw->defineAllowableValues("payment",  array("未选择", "货到付款","�
 $tblDraw->defineAllowableValues("status",  array("未激活",  "已激活", "已失效")  );
 
 
-if($table == "news"){
+if($table == "news") {
+
+
+	if(!$channelID){
+		$tblDraw->addWhereClause( " WHERE   channelID!=2 " );
+	}
+	if(!$rowid){
+		$tblDraw->addButtonToRow("编辑", "", "id", "openNewsPreview");
+		$tblDraw->omitField("content");
+	} 
 	$tblDraw->addButtonToRow("预览", "../article.php", "id", "", "new");
+
+	$tblDraw->defineCheckbox("publish");
+	
+
 	$tblDraw->defineRelationship("channelID", "channel", "id","name");
+	if($channelID){
+		$tblDraw->addWhereClause( " WHERE   channelID=$channelID " );
+	}
+
 }
 
 if($table == "members"){
@@ -226,6 +263,17 @@ if($table == "orders"){
 
 }
 
+if($table == "menu"){
+
+	$tblDraw->addButtonToRow("预览", "", "id", "openMenuPreview");
+	$tblDraw->addButtonToRow("编辑", "", "id", "openMenuContent");
+
+	$tblDraw->addOrderBy("ORDER BY gname,id asc");
+	$tblDraw->omitField("id");
+	$tblDraw->addOrderBy("ORDER BY gname desc");
+
+}
+
 if(isset( $tableRows['dtime'] ) )
 	$tblDraw->addOrderBy("ORDER BY dtime desc");
 else
@@ -233,17 +281,19 @@ else
 
 
 
-if($table == "menu"){
-	$tblDraw->addOrderBy("ORDER BY gname,id asc");
-	$tblDraw->omitField("id");
+if($channelID != "2"){
+	$tblDraw->omitField("memberNum");
+	$tblDraw->omitField("event");
 }
+
+
 if($table == "redeem"){
 	$tblDraw->omitField("id");
 	$tblDraw->addOrderBy("ORDER BY award,pass asc");
 	$tblDraw->addAjaxFilterBoxAllFields();
 }
 if($table == "members"){
-	$tblDraw->defineAllowableValues("type",  array("大众",  "VIP")  );
+	$tblDraw->defineAllowableValues("type",  array("普通",  "VIP")  );
 	$tblDraw->addAjaxFilterBoxAllFields();
 }
 
@@ -260,11 +310,19 @@ if($table == "logs" ){
 //$tblDraw->turnOffAjaxADD();
 
 
+if($rowid){
+	$tblDraw->setTextareaHeight('content', 650);
+	$tblDraw->setOrientation("vertical");
+	$tblDraw->addWhereClause( " WHERE  id=$rowid " );
+}
+
+
 foreach($tableRows as $key=>$val){
 	$tblDraw->displayAs($key, strtoupper($val));
 }
 
 
+$tblDraw->setLimit(20);
 $tblDraw->showTable();
 
 
@@ -282,6 +340,10 @@ $tblDraw->showTable();
 var table="<?php echo $table; ?>";
 var tableName="<?php echo $tableName; ?>";
 
+var addNews = "<?php echo $_GET['addNews']; ?>";
+var channelID = "<?php echo $channelID; ?>";
+var rowid = "<?php echo $rowid; ?>";
+
 	$('td form *:last').before('<br>').val('取消');
 	$('td form').append('<input type="submit" class="editingSize" value="确定">');
 	$('[value="Upload"]').next().hide().after('<input type="button"  class="editingSize" value="取消" onclick="$(this).parent().parent().hide();$(this).parent().parent().prev().show();">');
@@ -292,7 +354,10 @@ var tableName="<?php echo $tableName; ?>";
 	$('input[value="Ok"]').hide();
 	$('th:contains("Action")').html('操作');
 
-$('.result-tab .tha_des,  .result-tab .tha_content').parent().attr( 'width', 320 );
+	$('input[type="checkbox"]').parent().find('[value="确定"]').hide();
+
+
+if(rowid) $('.result-tab .tha_des,  .result-tab .tha_content').parent().attr( 'width', 640 );
 
 if($('form.ajaxCRUD').size()>0){
 	$('form.ajaxCRUD').appendTo('.search-content');
@@ -302,10 +367,16 @@ if($('form.ajaxCRUD').size()>0){
 }
 
 
+if(channelID && addNews){
+	$('[name="channelID"]').val( channelID );
+	$('.add_new_btn').click();
+}
+
 
 if($('.add_new_btn').size()>0){
 	$('.add_new_btn').hide();
 	$('.topAddNew').append(tableName).click(function(){
+		$('[name="channelID"]').val( channelID );
 		if( $('.add_form').is(':visible') )  $('.cancelAdd').click();
 			else $('.add_new_btn').click();
 	}	);
@@ -320,6 +391,14 @@ if(window.location.hash=='#add') {
 if($('.editable').size()!=0 ||$('.add_new_btn').size()>0  ){
 	$('.result-list').show();
 }
+
+$('[name="Uploader"] [value="取消"]').click(function(e){
+	e.preventDefault();
+	var el = $(this).closest('div');
+	el.hide();
+	el.prev().show();
+});
+
 
 </script>
 
@@ -340,14 +419,14 @@ if($('.editable').size()!=0 ||$('.add_new_btn').size()>0  ){
 		 window.initEditor = function() {
 
 			$('td.content').attr('valign','top');
-			$('td.content>div').css({ 'max-height':"200px", overflow:'hidden' });
+			//$('td.content>div').css({ 'max-height':"500px", overflow:'hidden' });
 			$('td.content .fileOpr').prev().click(function(e){
 				e.preventDefault();
 				$(this).next().find('.fileEditText').get(0).onclick();
 			});
 			var $tdc = $('.ajaxCRUD input[value=des], .ajaxCRUD input[value=content] ').parents('td.content');
 			$tdc.attr('white-space', 'normal');
-			$tdc.find('>div').css({ width:320 });
+			if(rowid) $tdc.find('>div').css({ width:680 });
 			$('.ajaxCRUD input[value=des], .ajaxCRUD input[value=content] ').each(function(i,e){
 				$(this).prevAll('.editMode').css("visibility", "hidden");
 				 $(this).parents('span').prev().click(function(){
@@ -364,9 +443,9 @@ if($('.editable').size()!=0 ||$('.add_new_btn').size()>0  ){
 			function setEditor(el){
 				var id = el.id;
 				var ue = UE.getEditor(id, { toolbars:toolbars,
-				 initialFrameWidth: 310,
+				 initialFrameWidth: 680,
 				 minFrameHeight: 500,
-				 initialFrameHeight: $(el).parent().height()+250,
+				 initialFrameHeight: $(el).parent().height(),
 				 autoHeightEnabled : false,
 				 enableAutoSave: false,
 				 saveInterval: 999999,
@@ -378,13 +457,14 @@ if($('.editable').size()!=0 ||$('.add_new_btn').size()>0  ){
                     elementPathEnabled: false,
                     maximumWords: 1e4,
                     focus: false,
+
 				 onready:function(){
 							var con = this.container;
 							var $form = $(con).prev();
 							$form.hide();
 							this.setContent( $form.find('textarea').val()||"" );
-							$(con).find('.edui-editor-bottomContainer tr').append('<input type="button" class="editingSize"  value="取消" onclick="$(this).parents(\'td.content\').find(\'>div\').css({ overflow:\'hidden\' });$(this).parents(\'span\').hide().prev().show()" />');
-							$(con).find('.edui-editor-bottomContainer tr').append('<input type="submit" class="editingSize"  value="确定" onclick="$(this).parents(\'td.content\').find(\'>div\').css({ overflow:\'hidden\' });$(this).parents(\'.edui-editor\').prev().submit()" />');
+							$(con).find('.edui-editor-toolbarboxouter').append('<input type="button" class="editingSize"  value="取消" onclick="$(this).parents(\'td.content\').find(\'>div\').css({ overflow:\'hidden\' });$(this).parents(\'span\').hide().prev().show()" />');
+							$(con).find('.edui-editor-toolbarboxouter').append('<input type="submit" class="editingSize"  value="确定" onclick="$(this).parents(\'td.content\').find(\'>div\').css({ overflow:\'hidden\' });$(this).parents(\'.edui-editor\').prev().submit()" />');
 							this.addListener('contentChange',function(){
 								//console.log( this.getContent() );
 								  var con = this.container;
@@ -397,6 +477,16 @@ if($('.editable').size()!=0 ||$('.add_new_btn').size()>0  ){
 									var $form = $(con).prev();
 								  $form.find('textarea').val( this.getContent() );
 							 })
+							this.addListener('afterSelectionChange',function(){
+								//console.log( this.getContent() );
+								  var con = this.container;
+									var $form = $(con).prev();
+									var $toolbar = $(con).find('.edui-editor-toolbarboxouter');
+									var offset= $('.edui-editor-imagescale').offset();
+									$('.edui-anchor-topright').css({left: 0, top:0 });
+									
+							 })
+								
 						},
 
 				 });
@@ -409,7 +499,7 @@ if($('.editable').size()!=0 ||$('.add_new_btn').size()>0  ){
 		var el = txtCon.hide().parent();
 		el.attr('id', 'addform_tdcontent');
 		var ue = UE.getEditor('addform_tdcontent', { toolbars:toolbars,
-				 initialFrameWidth: 310,
+				 initialFrameWidth: 680,
 				 minFrameHeight: 500,
 				 initialFrameHeight: $(el).height()+250,
 				 autoHeightEnabled : false,
@@ -506,6 +596,11 @@ body.dragging .topdrag td a{
 
 #orders_filter_form select{ height:25px; }
 
+input[type=checkbox]{
+	  width: 30px;
+	  height: 30px;
+}
+
 </style>
 <div class="topdrag">
 	<div style="background:#ccc;padding: 5px 10px;"><a href="#" class="close1 close">关闭</a> 拖到格子中添加 <span class="red"></span></div>
@@ -600,6 +695,66 @@ if(table=="shop_product"){
 
 if(table=='orders'){
 	$('.dateRange, .orderStat').show();
+}
+
+
+if(table=='menu'){
+	
+	function openMenuPreview (id) {
+		var $link = $('#menulink'+id+'_show');
+		var $input = $link.closest('td').next().find('input').eq(1);
+		var t = $link.text();
+		window.open( t.match(/^http:\/\/|^\//)? t : '../'+t );
+	}
+	function openNewsPreview (id) {
+		window.location = 'list.php?show=news&id='+id+'&channelID='+channelID;
+	}
+	function openSinglePreview (id) {
+		window.location = 'list.php?show=single&id='+id;
+	}
+	function openChannelPreview (id) {
+		window.location = 'list.php?show=channel&id='+id;
+	}
+
+	function openMenuContent (id, isTest) {
+		var $link = $('#menulink'+id+'_show');
+		var $input = $link.closest('td').next().find('input').last();
+		var t = $link.text();
+
+		var m = t.match(/^(.*)\.php\?id=(.*)$/);
+		if(m){
+			switch(m[1]){
+				case "single":
+					window.open( "list.php?show=single&id=" + m[2] );
+					break;
+				case "article":
+					window.open( "list.php?show=news&id=" + m[2] );
+					break;
+				case "nlist1":
+				case "nlist2":
+				case "nlist3":
+					window.open( "list.php?show=news&channelID=" + m[2] );
+					break;
+			}
+		} else {
+			$input.hide();
+		}
+	
+	}
+
+	$('#table_menu td:nth-child(3)').each(function  (i,e) {
+		var $link = $(this).find('span').first();
+		var $input = $link.closest('td').next().find('input').last();
+		var t = $link.text();
+		console.log(t);
+
+		var m = t.match(/^(.*)\.php\?id=(.*)$/);
+		if(m){
+
+		} else {
+			$input.hide();
+		}
+	})
 }
 
 var startDate = "<?php echo $startDate ?>";

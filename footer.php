@@ -5,7 +5,7 @@
 
 
 <div class="bot">
-	<img src="images/botmenu.png" height="79" width="640">
+	<img src="images/botmenu.png" height="92" width="640">
 	<a class="abs" id="b1" href="javascript:history.go(-1)">&nbsp;</a>
 	<a class="abs" id="b2" href="./">&nbsp;</a>
 	<a class="abs" id="b3" href="#">&nbsp;</a>
@@ -41,7 +41,7 @@ function setMenu (name) {
 		$('.popmenu li').not('.sysmenu').remove();
 		$('.popmenu ul').prepend( $(str.join('')) );
 	}
-	
+
 	var w = $('.popmenu').width();
 	//$('.popmenu').css({right: -w, visibility:'visible'}).animate({ right:0 }, 300);
 	if(w) $('.popmenu').hide();
@@ -73,6 +73,7 @@ $('#b4').on('click', function  (e) {
 <div class="phbg regCon" style="width:100%; height:100%; position:fixed; top:0; left:0; z-index: 10000000001; display:none; ">
 			<div id="" class="reg" align="center" style="width: 310px; margin:auto; padding-top: 10px;">
 				<div style="padding: 20px 0; font-size: 32px;font-weight: bold; color:#333;" class="regTitle">请填写您的个人信息</div>
+				<div style="padding: 20px 0; font-size: 28px;font-weight: bold; color:#F33;" class="loginLink">已注册会员点此登录</div>
 				<div style="padding: 5px 0;"><span style="padding: 0px 10px;">姓名</span><input type="text" name="name" style="width:200px;"></div>
 				<div style="padding: 5px 0;"><span style="padding: 0px 10px;">电话</span><input type="text" name="phone" style="width:200px;"></div>
 				<div style="padding: 5px 0;"><span style="padding: 0px 10px;">微信</span><input name="weixin" style="width:200px;"></div>
@@ -102,6 +103,7 @@ var phone="<?php echo $phoneGet;?>";
 var phoneSession="<?php echo $phoneSession;?>";
 var submitting = false;
 
+var theEvent = '<?php echo $event; ?>';
 
 (function($){
 
@@ -116,9 +118,16 @@ var submitting = false;
 	}
 
 	$('.regEvent').on("click",function(e){
-		if(phoneSession){
-			$.get("data/regevent.php", { phone:phoneSession, event:1 }, function(data){
+		e.preventDefault();
+
+		if(phoneSession && theEvent){
+			$.get("data/regevent.php", { phone:phoneSession, event:theEvent }, function(data){
 				alert("恭喜您已经成功报名本期活动。工作人员会稍后联系您。");
+
+				if(typeof tuanLink!='undefined') {
+					window.location=(tuanLink);
+					return;
+				}
 			});
 		}else{
 			$('.regLink').click();

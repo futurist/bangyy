@@ -2488,16 +2488,20 @@ class ajaxCRUD{
 
 	}//makeAjaxCheckbox
 
+
+
+
     function showUploadForm($field_name, $upload_folder, $row_id){
         $return_html = "";
 
-        $return_html .= "<form action=\"" . $_SERVER['PHP_SELF'] . "#ajaxCRUD\" name=\"Uploader\" method=\"POST\" ENCTYPE=\"multipart/form-data\">\n";
+        $return_html .= "<form action=\"" . $_SERVER['REQUEST_URI'] . "#ajaxCRUD\" name=\"Uploader\" method=\"POST\" ENCTYPE=\"multipart/form-data\">\n";
         $return_html .=  "  <input type=\"file\" size=\"10\" name=\"$field_name\" />\n";
         $return_html .= "  <input type=\"hidden\" name=\"upload_folder\" value=\"$upload_folder\" />\n";
         $return_html .= "  <input type=\"hidden\" name=\"field_name\" value=\"$field_name\" />\n";
         $return_html .= "  <input type=\"hidden\" name=\"id\" value=\"$row_id\" />\n";
         $return_html .= "  <input type=\"hidden\" name=\"table\" value=\"{$this->db_table}\" />\n";
         $return_html .= "  <input type=\"hidden\" name=\"action\" value=\"upload\" />\n";
+        $return_html .= "  <input type=\"hidden\" name=\"returnurl\" value=\"". $_SERVER["REQUEST_URI"] ."\" />\n";
         $return_html .= "  <input type=\"submit\" class=\"editingSize\" name=\"submit\" value=\"Upload\" />\n";
         $return_html .= "</form>\n";
 
@@ -2512,7 +2516,6 @@ class ajaxCRUD{
 	}
 
 }//class
-
 
 # In an effect to make ajaxCRUD thin we are attaching this (paging) class and a few functions all together
 

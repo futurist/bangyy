@@ -11,7 +11,8 @@
                         <li><a href="list.php?show=menu"><i class="icon-font">&#xe008;</i>菜单管理</a></li>
 						<li><a href="list.php?show=single"><i class="icon-font">&#xe008;</i>单页管理</a></li>
 						<li><a href="list.php?show=channel"><i class="icon-font">&#xe008;</i>文章分类</a></li>
-						<li><a href="list.php?show=news"><i class="icon-font">&#xe008;</i>文章管理</a></li>
+                        <li><a href="list.php?show=news"><i class="icon-font">&#xe008;</i>文章管理</a></li>
+						<li><a href="list.php?show=news&channelID=2"><i class="icon-font">&#xe008;</i>旅行团管理</a></li>
                     </ul>
                 </li>
                 <li>

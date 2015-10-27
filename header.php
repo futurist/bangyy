@@ -33,7 +33,7 @@ function GetCurUrl(){
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="format-detection" content="telephone=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo isset($title)? $title : "板城工业游" ?></title>
+<title><?php echo isset($title)? $title : "板城酒业官微" ?></title>
 
 <script type="text/javascript" src="js/zepto.min.js" ></script>
 <script type="text/javascript" src="js/zepto.waypoints.min.js" ></script>

@@ -10,7 +10,7 @@ $menuGroup = $cat['menu'];
 $orderby = ' order by dtime desc ';
 $where = " channelID=$ID ";
 
-$r = q("select *, news.id as nid from news left join channel on channelID=channel.id where $where  $orderby limit 4  ");
+$r = q("select *, news.id as nid, news.picture as pic from news left join channel on channelID=channel.id where $where and news.publish=1  $orderby limit 4  ");
 
 ?>
 <?php
@@ -25,7 +25,7 @@ $r = q("select *, news.id as nid from news left join channel on channelID=channe
 
 <?php foreach($r as $li){ $li=(object)$li; $li->title = strip_tags($li->title); ?>
 	<li class="clearfix">
-		<img src="uploads/<?php echo $li->picture;?>" height="100" width="100">
+		<img src="uploads/<?php echo $li->{pic}==''?'../images/tuan-s.jpg':$li->pic;?>" border height="100" width="100">
 		<p><a href="article.php?id=<?php echo $li->nid;?>"><?php echo $li->shortTitle!=""? $li->shortTitle : cut_str($li->title, 32);?></a></p>
 		<!-- <?php echo cut_str( strip_tags($li->des) , 32 ) ;?> -->
 	</li>

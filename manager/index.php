@@ -167,6 +167,7 @@ $maxsize = ini_get('upload_max_filesize');
                     <a href="list.php?show=channel#add"><i class="icon-font">&#xe005;</i>新增分类</a>
                     <a href="list.php?show=channel"><i class="icon-font">&#xe048;</i>管理分类</a>
                     <a href="list.php?show=single"><i class="icon-font">&#xe041;</i>单页管理</a>
+                    <a href="list.php?show=news&channelID=2"><i class="icon-font">&#xe041;</i>旅行团</a>
                 </div>
             </div>
         </div>
