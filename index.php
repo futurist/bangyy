@@ -9,6 +9,11 @@ $r = q1("select *, news.id as newsid, channel.name as cname , channel.id as cid 
 $event = $r["event"]; 
 $eventNewsID = $r["newsid"]; 
 
+$indexRec = q1("select * from single where name='首页' order by dtime desc limit 1");
+$imgArr = array();
+preg_match_all('/src="([^"]+)"/', $indexRec['des'], $imgArr, PREG_PATTERN_ORDER);
+$linkArr = array();
+preg_match_all('/href="([^"]+)"/', $indexRec['des'], $linkArr, PREG_PATTERN_ORDER);
 
 ?>
 <!DOCTYPE html>
@@ -267,9 +272,27 @@ body{
 	margin-top: -22px;
 	right: .5625em;
 
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<%3Fxml%20version%3D"1.0"%20encoding%3D"iso-8859-1"%3F><!DOCTYPE%20svg%20PUBLIC%20"-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN"%20"http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd"><svg%20version%3D"1.1"%20id%3D"Layer_1"%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"%20xmlns%3Axlink%3D"http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink"%20x%3D"0px"%20y%3D"0px"%20%20width%3D"28px"%20height%3D"28px"%20viewBox%3D"0%200%2014%2014"%20style%3D"enable-background%3Anew%200%200%2014%2014%3B"%20xml%3Aspace%3D"preserve"><polygon%20style%3D"fill%3A%23FFFFFF%3B"%20points%3D"3.404%2C2.051%208.354%2C7%203.404%2C11.95%205.525%2C14.07%2012.596%2C7%205.525%2C-0.071%20"%2F><%2Fsvg>');
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<%3Fxml%20version%3D"1.0"%20encoding%3D"iso-8859-1"%3F><!DOCTYPE%20svg%20PUBLIC%20"-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN"%20"http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd"><svg%20version%3D"1.1"%20id%3D"Layer_1"%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"%20xmlns%3Axlink%3D"http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink"%20x%3D"0px"%20y%3D"0px"%20%20width%3D"28px"%20height%3D"28px"%20viewBox%3D"0%200%2014%2014"%20style%3D"enable-background%3Anew%200%200%2014%2014%3B"%20xml%3Aspace%3D"preserve"><polygon%20style%3D"fill%3A%23001b38%3B"%20points%3D"3.404%2C2.051%208.354%2C7%203.404%2C11.95%205.525%2C14.07%2012.596%2C7%205.525%2C-0.071%20"%2F><%2Fsvg>');
+}
+.bot>div.active{
+	 background-position:0 -91px;
 }
 
+.popmenu li{
+	margin:6px 0;
+	border:none;
+	background: #e8e8e8;
+	color:#001b38;
+}
+.popmenu li a{
+	color:#001b38;
+	text-shadow:none;
+}
+.popmenu li a:after{
+	background-color:#e8e8e8;
+	border:none;
+
+}
 .txtpyq {
         display: none;
         text-align: right;
@@ -288,6 +311,38 @@ body{
         height: 100%;
         background: rgba(0,0,0,0.8);
         z-index: 20000000;
+}
+
+ul,li{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-container{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width:100%;
+	height: 558px;
+}
+ul.showImgThumb li{
+	float: left;
+	width:100%;
+	height:100%;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+ul.showImgThumb li div{
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.thumb a{
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 
 </style>
@@ -309,6 +364,10 @@ var eventNewsID = "<?php echo $eventNewsID; ?>";
 var tuanLink = "article.php?id="+eventNewsID;
 
 </script>
+<script src="js/marquee.js"></script>
+
+<link rel="stylesheet" type="text/css" href="js/swiper.min.css">
+<script type="text/javascript" src="js/swiper.jquery.min.js"></script>
 
 </head>
 <body class="app">
@@ -317,6 +376,20 @@ var tuanLink = "article.php?id="+eventNewsID;
 <div class="txtpyq"><img src="images/txt_pyq.png" alt=""></div>
 
 <div class="wrap">
+
+<div style="overflow: hidden; height: 93px;">
+    <img src="images/index4_01.png" width="640" height="93" alt=""/>
+</div>
+
+<div class="swiper-container">
+		<ul class="showImgThumb swiper-wrapper">
+	<?php foreach($imgArr[1] as $i=>$val){ ?>
+
+		<li class="swiper-slide"><div class="thumb" data-href="<?php echo $linkArr[1][$i] ?>" style="background-image:url(<?php echo $val ?>)"></div></li>
+
+	<?php } ?>
+		</ul>
+</div>
 
 <?php
 $require_id = 1;
@@ -328,3 +401,16 @@ require_once("single.php");
 <?php
 	require_once("footer.php");
 ?>
+
+<script type="text/javascript">
+var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1,
+    setWrapperSize:true,
+    centeredSlides:false,
+    spaceBetween: 40,
+    onTap: function (sw, e) {
+		var imgurl = Zepto(e.target).data('href');
+		if(imgurl) window.location.href= imgurl;
+    }
+});
+</script>

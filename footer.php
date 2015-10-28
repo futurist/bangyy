@@ -1,15 +1,15 @@
 
 
-</div>
+</section>
 <!-- end of wrap -->
 
 
 <div class="bot">
-	<img src="images/botmenu.png" height="92" width="640">
+	<div style="width:100%; height:91px; background-image:url(images/botmenu.png); background-size: cover;" class=""></div>
 	<a class="abs" id="b1" href="javascript:history.go(-1)">&nbsp;</a>
-	<a class="abs" id="b2" href="./">&nbsp;</a>
-	<a class="abs" id="b3" href="#">&nbsp;</a>
-	<a class="abs" id="b4" href="#">&nbsp;</a>
+	<a class="abs" id="b2" href="./"></a>
+	<a class="abs" id="b3" href="#"></a>
+	<a class="abs" id="b4" href="#"></a>
 </div>
 
 <div class="popmenu">
@@ -52,6 +52,7 @@ function setMenu (name) {
 $('#b4').on('click', function  (e) {
 	e.preventDefault();
 	setMenu(menuGroup);
+	$('.bot>div').toggleClass('active');
 });
 </script>
 

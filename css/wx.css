@@ -1,0 +1,53 @@
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p,
+a, img, ol, ul, li,
+article, aside, footer, header,
+nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+body {background: #eee; padding-top: 100px;}
+
+#nav {position: fixed; top: 0; overflow: hidden; z-index: 1000; width: 100%; background: #333; color: #eee; padding: 10px}
+#nav a {color: #eee; text-decoration: none;}
+#nav .logo {float: left; margin-left: 10px;}
+#nav h1 {font-size: 1.5em; line-height: 1.7;}
+#nav .user {float: right; margin-right: 30px;}
+
+#wrapper {width: 650px; margin:0 auto;}
+
+.post {background: #fff; border-radius: 5px; margin: 0 25px 50px;padding: 25px;/*box-shadow: 3px 3px 10px #aaa*/}
+.post header p {margin: 15px 0;}
+.post header h2 {font-weight: 400; font-size: 1.3em;}
+.post img {margin: 20px 0;}
+.post p img {display: none;}
+.post p {color: #999;}
+.post footer {margin-top: 20px;}
+.post a {text-decoration: none; color: #000;}
+.post a:hover h2 {color: #3E72A1;}
+.post .banner {height: 200px; overflow: hidden; margin-bottom: 20px; position: relative; background: no-repeat center; background-size: cover;}
+@media screen and (max-width: 650px) {
+	#wrapper {width: 100%;}
+	.post .banner {height: 150px;}
+	#wrapper .post.post-sub header {margin-right: 80px;}
+
+}
+.post.post-banner, .post.post-sub{padding: 10px; position: relative;}
+.post.post-banner header {position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 3; width:auto;background: rgba(128, 128, 128, 0.6); }
+.post.post-banner header h2 {color: #fff; line-height: 2}
+.post.post-banner a:hover header {background: rgba(128, 128, 128, 0.5);}
+
+.post.post-banner p, .post.post-banner footer, .post.post-sub p, .post.post-sub footer {display: none;}
+.post.post-banner .banner, .post.post-sub .banner {margin-bottom: 0;}
+.post.post-sub header {display: table-cell; vertical-align: middle; width: 500px; padding: 15px 45px 15px 15px; box-sizing: border-box;}
+.post.post-sub section {display: table-cell; vertical-align: middle;}
+.post.post-sub .banner { height: 80px; width: 80px;}
+
+.articles .post {border-radius: 0; margin-bottom: 0}
+.articles .post + .post {border-top: 1px solid #eee}
+.articles .post:first-child {border-radius: 5px 5px 0 0;}
+.articles .post:last-child {border-radius: 0 0 5px 5px; margin-bottom: 50px;}

@@ -19,57 +19,22 @@ $r = q("select *, news.id as nid, news.picture as pic from news left join channe
 
 
 
-<section class="articles">
-<?php foreach($r as $i=>$li){ $li=(object)$li; $li->title = strip_tags($li->title); ?>
-
-<?php if($i==0){ ?>
-<article class="post post-banner">
-	<a href="article.php?id=<?php echo $li->nid;?>">
-	<header>
-		<h2><?php echo $li->shortTitle!=""? $li->shortTitle : cut_str($li->title, 32);?></h1>
-		<p>
-			3月24日
-		</p>
-	</header>
-	<section>
-		<div class="banner"></div>
-		<p>
-			<img src="uploads/<?php echo $li->{pic}==''?'../images/tuan-s.jpg':$li->pic;?>" style="width:100%">
-		</p>
-	</section>
-	<footer>
-		查看全文
-	</footer>
-	</a>
-</article>
-
-<?php } else { ?>
-<article class="post post-sub">
-		<a href="article.php?id=<?php echo $li->nid;?>">
-		<header>
-			<h2><?php echo $li->shortTitle!=""? $li->shortTitle : cut_str($li->title, 32);?></h1>
-			<p>
-				3月24日
-			</p>
-		</header>
-		<section>
-			<div class="banner"></div>
-			<p>
-				<img src="uploads/<?php echo $li->{pic}==''?'../images/tuan-s.jpg':$li->pic;?>">
-			</p>
-		</section>
-		<footer>
-			查看全文
-		</footer>
-		</a>
-	</article>
-
-<?php } ?>
+<div class="con list2">
+<ul>
+<?php foreach($r as $li){ $li=(object)$li; $li->title = strip_tags($li->title); ?>
+<li class="clearfix">
+	<p><a href="article.php?id=<?php echo $li->nid;?>"><?php echo $li->shortTitle!=""? $li->shortTitle : cut_str($li->title, 32);?></a>
+	<?php if(!$li->event){ ?><br><?php echo date('Y.m.d', strtotime( $li->dtime ) );?><?php } ?></p>
+	<a class="regEvent"><img src="uploads/<?php echo $li->{pic}==''?'../images/tuan-s.jpg':$li->pic;?>" width="523"></a>
+	<?php if($li->event){ ?>
+		<div class="clearfix"><span style="float:left;"><?php echo $li->event; ?></span><a class="regEvent" style="float:right;">点击报名</a></div>
+	<?php } ?>
+</li>
 <?php } ?>
 
-</section>
+</ul>
+</div>
 
-<script src="js/wx.js"></script>
 
 <script type="text/javascript">
 
